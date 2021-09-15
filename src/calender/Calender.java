@@ -38,39 +38,26 @@ public class Calender {
 	}
 	
 	public static void main(String[] args) {
-		// 숫자를 입력받아 해당하는 달의 최대 일수를 출력하는 프로그램
-		// 1,3,5,7,8,10,12 -> 31일
-		// 4,6,9,11 -> 30일
-		// 2 -> 28일
-		/*System.out.println("달을 입력하세요.");
-		Scanner scanner = new Scanner(System.in);
-		String month_str;
-		month_str = scanner.next();
-		int month = scanner.nextInt();
-		if (month == 1||month == 3||month == 5||month == 7||month == 8||month == 10||month == 12) {
-			System.out.printf("%d월은 31일까지 있습니다.", month);
-		} else if (month == 4||month == 6||month == 9||month == 11) {
-			System.out.printf("%d월은 30일까지 있습니다.", month);
-		} else {
-			System.out.printf("&d월은 28일까지 있습니다.", month);
-		}
-		scanner.close();*/
 		
+		String PROMPT = "cal> ";
 		Scanner scanner = new Scanner(System.in);
 		Calender cal = new Calender();
-		// 반복 입력이 가능하드록 프로그램 수정
-		// 일반적으로 횟수를 잘 모를 때 while, 횟수를 잘 알 때 for문 사용
-		System.out.println("반복횟수를 입력하세요.");
-		int repeat = scanner.nextInt();
 		
-		for (int i=0; i<repeat; i++) {
+		int month = 1;
+		
+		while (true) {
 			System.out.println("월을 입력하세요.");
-			int month = scanner.nextInt();
+			System.out.print(PROMPT);
+			month = scanner.nextInt();
+			if (month == -1) {
+				break;
+			} else if (month > 12) {
+				continue;
+			}
 			System.out.printf("%d월은  %d일까지 있습니다. \n", month, cal.getMaxDaysOfMonth(month));
-			System.out.println("=========================");
 		}
+	
 		System.out.println("Bye~");
 		scanner.close();
 	}
-
 }
