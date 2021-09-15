@@ -8,6 +8,22 @@ public class Calender {
 	
 	public int getMaxDaysOfMonth(int month) {
 		return MAX_DAYS[month-1];
+		/*
+		 * switch (month){
+		 * case 2:
+		 *     return 28;
+		 * case 4:
+		 *     return 30;
+		 * case 6:
+		 *     return 30;
+		 * case 9:
+		 *     return 30;
+		 * case 11:
+		 *     return 30;
+		 * default:
+		 *     return 31;    
+		 * }
+		 */
 		
 	}
 	
@@ -22,8 +38,6 @@ public class Calender {
 	}
 	
 	public static void main(String[] args) {
-		
-		
 		// 숫자를 입력받아 해당하는 달의 최대 일수를 출력하는 프로그램
 		// 1,3,5,7,8,10,12 -> 31일
 		// 4,6,9,11 -> 30일
