@@ -58,10 +58,18 @@ public class Calender {
 		
 		Scanner scanner = new Scanner(System.in);
 		Calender cal = new Calender();
-		System.out.println("달을 입력하세요.");
-		int month = scanner.nextInt();
+		// 반복 입력이 가능하드록 프로그램 수정
+		// 일반적으로 횟수를 잘 모를 때 while, 횟수를 잘 알 때 for문 사용
+		System.out.println("반복횟수를 입력하세요.");
+		int repeat = scanner.nextInt();
 		
-		System.out.printf("%d월은  %d일까지 있습니다. \n", month, cal.getMaxDaysOfMonth(month));
+		for (int i=0; i<repeat; i++) {
+			System.out.println("월을 입력하세요.");
+			int month = scanner.nextInt();
+			System.out.printf("%d월은  %d일까지 있습니다. \n", month, cal.getMaxDaysOfMonth(month));
+			System.out.println("=========================");
+		}
+		System.out.println("Bye~");
 		scanner.close();
 	}
 
