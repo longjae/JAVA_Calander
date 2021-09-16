@@ -1,63 +1,56 @@
 package calender;
 
-import java.util.Scanner;
-
 public class Calender {
 	
 	private static final int[] MAX_DAYS = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	private static final int[] LEAP_MAX_DAYS = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
-	public int getMaxDaysOfMonth(int month) {
-		return MAX_DAYS[month-1];
-		/*
-		 * switch (month){
-		 * case 2:
-		 *     return 28;
-		 * case 4:
-		 *     return 30;
-		 * case 6:
-		 *     return 30;
-		 * case 9:
-		 *     return 30;
-		 * case 11:
-		 *     return 30;
-		 * default:
-		 *     return 31;    
-		 * }
-		 */
-		
-	}
-	
-	public void printSampleCalender() {
-		System.out.println(" 일    월    화    수    목    금    토");
-		System.out.println("--------------------");
-		System.out.println("30 31  1  2  3  4  5");
-		System.out.println(" 6  7  8  9 10 11 12");
-		System.out.println("13 14 15 16 17 18 19");
-		System.out.println("20 21 22 23 24 25 26");
-		System.out.println("27 28 29 30  1  2  3"); // ctrl + shift + f를 누르면 자동 정렬
-	}
-	
-	public static void main(String[] args) {
-		
-		String PROMPT = "cal> ";
-		Scanner scanner = new Scanner(System.in);
-		Calender cal = new Calender();
-		
-		int month = 1;
-		
-		while (true) {
-			System.out.println("월을 입력하세요.");
-			System.out.print(PROMPT);
-			month = scanner.nextInt();
-			if (month == -1) {
-				break;
-			} else if (month > 12) {
-				continue;
-			}
-			System.out.printf("%d월은  %d일까지 있습니다. \n", month, cal.getMaxDaysOfMonth(month));
+	public boolean isLeapYear(int year) {
+		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
+			return true;
+		} else {
+			return false;
 		}
-	
-		System.out.println("Bye~");
-		scanner.close();
 	}
+	
+	public int getMaxDaysOfMonth(int year, int month) {
+		if (isLeapYear(year)) {
+			return LEAP_MAX_DAYS[month-1];
+		} else {
+			return MAX_DAYS[month-1];
+		}
+	}
+	
+	public void printCalender(int year, int month, int weekday) {
+		System.out.printf("     <<%4d년 %3d월>>\n", year, month);
+		System.out.println(" SU MO TU WE TH FR SA");
+		System.out.println("----------------------");
+
+		//print blank space
+		for (int i= 0; i < weekday; i++) {
+			System.out.print("   ");
+		}
+		int maxDay = getMaxDaysOfMonth(year, month);
+		int count = 7 - weekday;
+		int delim = (count < 7) ? count : 0; // 일요일이 되는경우 줄바꿈이 안되는 경우를 방지
+		
+		//print first line
+		for (int i = 1; i <= count; i++) {
+			System.out.printf("%3d", i);
+		}
+		System.out.println();
+		
+		//print from second line to last
+		count++;
+		for (int i = count; i <= maxDay; i++) {
+			System.out.printf("%3d", i);
+			if (i % 7 == delim) {
+				System.out.println();
+			}
+		}
+		System.out.println(); 
+		System.out.println(); 
+		// ctrl + shift + f를 누르면 자동 정렬
+	}
+	
 }
