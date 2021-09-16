@@ -1,4 +1,4 @@
-package calender;
+package calendar;
 
 import java.util.Scanner;
 
@@ -19,12 +19,11 @@ public class Prompt {
 
 	public void runPrompt() {
 		Scanner scanner = new Scanner(System.in);
-		Calender cal = new Calender();
+		Calendar cal = new Calendar();
 
 		
 		int month = 1;
 		int year = 2021;
-		int weekday = 0;
 
 		while (true) {
 			System.out.println("년도를 입력하세요.(exit: -1)");
@@ -44,11 +43,7 @@ public class Prompt {
 				continue;
 			}
 			
-			System.out.println("첫 번째 요일을 선택하세요.(SU, MO, TU, WE, TH, FR, SA)");
-			String str_weekday = scanner.next();
-			weekday = parseDay(str_weekday);
-			System.out.print("WEEKDAY> ");
-			cal.printCalender(year, month, weekday);
+			cal.printCalender(year, month);
 		}
 
 		System.out.println("Bye~");
