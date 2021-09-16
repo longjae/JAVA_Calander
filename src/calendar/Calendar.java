@@ -1,9 +1,36 @@
 package calendar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 public class Calendar {
 	
 	private static final int[] MAX_DAYS = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	private static final int[] LEAP_MAX_DAYS = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	
+	private HashMap<Date, String> planMap; 
+	
+	public Calendar() {
+		planMap = new HashMap<Date, String>();
+	}
+	
+	/**
+	 * @param date ex: "2017-06-20"
+	 * @param plan
+	 * 
+	 */
+	public void registerPlan(String strDate, String plan) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+		planMap.put(date,  plan);
+	}
+	
+	public String searchPlan(String strDate) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+		String plan = planMap.get(date);
+		return plan;
+	}
 	
 	public boolean isLeapYear(int year) {
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
@@ -19,6 +46,27 @@ public class Calendar {
 		} else {
 			return MAX_DAYS[month];
 		}
+	}
+	
+	private int getWeekDay(int year, int month, int day) {
+		int syear = 1970;
+		final int STANDARD_WEEKDAY = 4; //1970/Jan/1st = Thursday
+		
+		int count = 0;
+		for (int i = syear; i < year; i++) {
+			int delta = isLeapYear(i) ? 366 : 365;
+			count += delta;
+		}
+		
+		for (int i = 1; i < month; i++) {
+			int delta = getMaxDaysOfMonth(year, i);
+			count += delta;
+		}
+		
+		count += day - 1;
+		
+		int weekday = (count + STANDARD_WEEKDAY) % 7;
+		return weekday;
 	}
 	
 	public void printCalender(int year, int month) {
@@ -57,33 +105,15 @@ public class Calendar {
 		// ctrl + shift + f를 누르면 자동 정렬
 	}
 
-	private int getWeekDay(int year, int month, int day) {
-		int syear = 1970;
-		final int STANDARD_WEEKDAY = 3; //1970/Jan/1st = Thursday
-		
-		int count = 0;
-		for (int i = syear; i < year; i++) {
-			int delta = isLeapYear(i) ? 366 : 365;
-			count += delta;
-		}
-		
-		for (int i = 1; i < month; i++) {
-			int delta = getMaxDaysOfMonth(year, i);
-			count += delta;
-		}
-		
-		count += day;
-		
-		int weekday = (count + STANDARD_WEEKDAY) % 7;
-		return weekday;
-	}
-	
 	// simple test code here
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		Calendar cal = new Calendar();
-//		System.out.println(cal.getWeekDay(1970, 1, 1) == 3);
-//		System.out.println(cal.getWeekDay(1971, 1, 1) == 4);
-//		System.out.println(cal.getWeekDay(1972, 1, 1) == 5);
+		System.out.println(cal.getWeekDay(1970, 1, 1) == 4);
+		System.out.println(cal.getWeekDay(1971, 1, 1) == 5);
+		System.out.println(cal.getWeekDay(1972, 1, 1) == 6);
+		
+		cal.registerPlan("2017-06-23", "Let's eat beef!");
+		System.out.println(cal.searchPlan("2017-06-23").equals("Let's eat beef!"));
 	}
 	
 }
